@@ -1,0 +1,62 @@
+name: CI Pipeline for Iris
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  sanity-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: ⚫ Run black (code formatter)
+        run: black --check src/ tests/
+
+      - name: 🚨 Run flake8 (linter)
+        run: flake8 src/ tests/
+
+      - name: 🧪 Run tests with pytest
+        run: pytest tests/
+
+      - name: 🚂 Run training
+        run: python src/train.py
+
+      - name: 📊 Run metric plot script
+        run: python src/plot_metrics.py
+
+      - name: 📤 Upload model & report
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts
+          path: |
+            model.joblib
+            encoder.joblib
+            X_test.npy
+            y_test.npy
+            metrics.png
+            report.md
+
+      - name: 💬 Comment PR report using CML
+        uses: iterative/setup-cml@v2
+
+      - name: 📝 CML PR Comment
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cml comment create report.md
