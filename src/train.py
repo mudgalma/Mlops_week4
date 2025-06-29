@@ -31,4 +31,3 @@ np.save("X_test.npy", X_test)
 np.save("y_test.npy", y_test)
 
 print("✅ Model trained and files saved.")
-
