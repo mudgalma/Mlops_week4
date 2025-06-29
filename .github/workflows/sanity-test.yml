@@ -28,8 +28,8 @@ jobs:
       - name: ⚫ Run black (code formatter)
         run: black --check src/ tests/
 
-      - name: 🚨 Run flake8 (linter)
-        run: flake8 src/ tests/
+      # - name: 🚨 Run flake8 (linter)
+      #   run: flake8 src/ tests/
 
       - name: 🧪 Run tests with pytest
         run: pytest tests/

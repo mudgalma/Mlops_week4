@@ -4,7 +4,6 @@ from joblib import dump
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score
 
 # ✅ Load data from CSV
 df = pd.read_csv("data/iris.csv")
@@ -31,4 +30,3 @@ np.save("X_test.npy", X_test)
 np.save("y_test.npy", y_test)
 
 print("✅ Model trained and files saved.")
-
