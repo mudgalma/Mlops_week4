@@ -15,9 +15,7 @@ encoder = LabelEncoder()
 y_encoded = encoder.fit_transform(y)
 
 # ✅ Split data
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y_encoded, test_size=0.2
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2)
 
 # ✅ Train model
 model = LogisticRegression(max_iter=200)
